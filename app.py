@@ -18,5 +18,11 @@ def sign_up():
     """This function implements sign_up"""
     return render_template("signup.html")
 
+@app.route('/signin/raiseissue')
+def raise_issue():
+    """This function implements """
+    return render_template("raiseissue.html")
+
+
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=8080)
