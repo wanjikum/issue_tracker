@@ -28,7 +28,8 @@ def sign_in():
 
 @app.route('/signup', methods=['GET', 'POST'] )
 def sign_up():
-    # """This function implements user/admin sign_up"""
+    
+    """This function implements user/admin sign_up"""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -44,9 +45,19 @@ def sign_up():
 
     return render_template("signup.html")
 
-@app.route('/signin/raiseissue')
+@app.route('/signin/raiseissue', methods=['GET', 'POST'] )
 def raise_issue():
     """This function implements """
+    if request.method == 'POST':
+        issuename = request.form['issuename']
+        description = request.form['description']
+        priority = request.form['priority']
+        department = request.form['department']
+        newissue = Issues(name=issuename, description=description, priority=priority, department=department)
+
+        session.add(newissue)
+        session.commit()
+        #return redirect(url_for('index'))
     return render_template("raiseissue.html")
 
 
