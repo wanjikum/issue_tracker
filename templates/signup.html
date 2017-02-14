@@ -1,4 +1,4 @@
-<form>
+<form action={{url_for("sign_up")}} method="post">
 <div class="container">
     <label><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="username" required>
@@ -10,7 +10,7 @@
     <input type="text" placeholder="Enter email" name="email" required>
    <br><br>
     <label><b>Department</b></label>
-    <select>
+    <select name="department">
         <option value="operations">Operations</option>
         <option value="finance">Finance</option>
         <option value="training">Training</option>
@@ -21,7 +21,7 @@
     </select>
   <br><br>
   <label><b>Designation</b></label>
-  <select>
+  <select name="usertype">
         <option value="admin">Admin</option>
         <option value="user">User</option>
    </select>
