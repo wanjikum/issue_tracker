@@ -25,6 +25,7 @@ def sign_in():
     if request.method == 'POST':
         user = sessions.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
         flash('You were successfully logged in')
+        session['Username'] = request.form['username']
         return redirect(url_for('raise_issue'))
     return render_template("signin.html")
 
@@ -58,18 +59,21 @@ def raise_issue():
             sessions.add(newissue)
             sessions.commit()
             flash('You have successfully raised an issue!')
-
             #return redirect(url_for('index'))
-        return render_template("raiseissue.html")
+            return render_template("raiseissue.html", user=username)
+        else:
+            return render_template("raiseissue.html", user=username)
     else:
         return redirect(url_for('index'))
-
+"""
 @app.route('/viewissues')
 def view_issues():
-    """This function implements sign_in"""
+    This function implements sign_in
     return render_template("allissues.html")
+"""
 
-@app.route('/signin/signout')
+
+@app.route('/signout')
 def sign_out():
     """This functions implements signout"""
     return redirect(url_for('index'))

@@ -3,6 +3,7 @@
         <title>Index</title>
     </head>
     <body>
+    <h1>Welcome {{ user }}</h1>
         <a href="{{url_for('sign_out')}}">Sign out</a>
         <br>
         <form action={{url_for("raise_issue")}} method="post">
@@ -33,5 +34,5 @@
           <br><br>
             <button type="submit">Submit</button>
          </div>
-    </body>
+</body>
 </html>
