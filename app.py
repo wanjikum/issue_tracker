@@ -12,7 +12,7 @@ engine = create_engine('sqlite:///issue_tracker.db')
 
 Base.metadata.create_all(engine)
 DBSession =  sessionmaker(bind=engine)
-session = DBSession()
+sessions = DBSession()
 
 @app.route('/')
 def index():
@@ -23,7 +23,7 @@ def index():
 def sign_in():
     """This function implements user/admin sign_in"""
     if request.method == 'POST':
-        user = session.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
+        user = sessions.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
         return redirect(url_for('raise_issue'))
     return render_template("signin.html")
 
@@ -37,30 +37,29 @@ def sign_up():
         department = request.form['department']
         designation = request.form['usertype']
         newuser = Users(username=username, password=password, email=email, department=department, designation=designation)
-
-        session.add(newuser)
-        session.commit()
+        sessions.add(newuser)
+        sessions.commit()
         return redirect(url_for('index'))
     return render_template("signup.html")
 
 @app.route('/signin/raiseissue', methods=['GET', 'POST'] )
 def raise_issue():
-    """This function implements """
+    """This function implements raise_issues"""
     if request.method == 'POST':
         issuename = request.form['issuename']
         description = request.form['description']
         priority = request.form['priority']
         department = request.form['department']
         newissue = Issues(name=issuename, description=description, priority=priority, department=department)
-
-        session.add(newissue)
-        session.commit()
+        sessions.add(newissue)
+        sessions.commit()
         #return redirect(url_for('index'))
     return render_template("raiseissue.html")
 
 @app.route('/signin/signout')
 def sign_out():
-   return redirect(url_for('index'))
+    """This functions implements signout"""
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
