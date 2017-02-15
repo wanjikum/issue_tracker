@@ -1,26 +1,71 @@
-<html>
-	<body>
-		<br>
-		<a href={{ url_for('user_view_issues')}}>Log Out</a>
-		<br>
+{%extends 'base.html'%}
+{% block body %}
+<br>
+<a href={{ url_for('user_view_issues')}}>User view issues</a>
+<div class="row">
+<div class='col-lg-8 col-lg-offset-1'>
+	<table class="table table-responsive">
+	  <thead>
+		  <tr>                  
+		    <th>Name</th>
+		    <th>Description</th>
+		    <th>Priority</th>
+		    <th>Department</th>
+		    <th>User_id</th>
+		    <th>Resolve<th>
+		  </tr>
+	  </thead>
+	  <tbody>
+
 		{% for i in results %}
-			<p>{{i.name}}</p>
-			<p>{{i.description}}</p>
-			<p>{{i.priority}}</p>
-			<p>{{i.department}}</p>
-			<p>{{i.user_id}}</p>
-			<label><b>Priority</b></label>
-            <select name="status">
-                <option value="pending">Pending</option>
-                <option value="in-progress">In progress</option>
-                <option value="resolved">Resolved</option>
-            </select>
-            <textarea rows="4" cols="50" name="comment" form="usrform">
-            Enter comment here...</textarea>
-           <br><br>
-			<br>
-			<br>
+		<tr data-toggle="modal" data-target="#myModal">
+			<td>{{i.name}}</td>
+			<td>{{i.description}}</td>
+			<td>{{i.priority}}</td>
+			<td>{{i.department}}</td>
+			<td>{{i.user_id}}</td>
+			<td>
+		</tr>
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 <div class="modal-dialog" role="document">
+		   <div class="modal-content">
+		     <div class="modal-header">
+		       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		       <h4 class="modal-title" id="myModalLabel">{{i.name}}</h4>
+		     </div>
+		     <div class="modal-body">
+		     	<h4 class="modal-title" id="myModalLabel">{{i.description}}</h4>
+		     	<form >
+		     	<label><b>Status</b></label>
+				    <select name="status">
+				        <option value="pending">Pending</option>
+				        <option value="in-progress">In progress</option>
+				        <option value="resolved">Resolved</option>
+				    </select>
+				    <textarea rows="4" cols="50" name="comment" form="usrform">
+				    Enter comment here...</textarea>
+				</form>
+		     </div>
+
+		     <div class="modal-footer">
+		       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		       <button type="button" class="btn btn-primary">Save changes</button>
+		     </div>
+		   </div>
+		 </div>
+		</div>
 		{% endfor %}
+	  </tbody>
+	</table>
+</div>
+<div class='col-lg-4 col-lg-offset-1'>
 	
-</body>
-</html>
+    
+   <br><br>
+	<br>
+	<br>
+
+{% endblock %}
+
+

@@ -27,11 +27,12 @@ def sign_in():
         flash('You were successfully logged in')
         session['Username'] = request.form['username']
         session['id'] = user.id
+        session['logged'] = True
         if user.designation == 'admin':
             return redirect(url_for('admin_view_issues'))
         else:
             return redirect(url_for('user_view_issues'))
-        return redirect(url_for('raise_issue'))
+        
     return render_template("signin.html")
 
 @app.route('/signup', methods=['GET', 'POST'] )
@@ -93,7 +94,14 @@ def admin_view_issues():
 @app.route('/signout')
 def sign_out():
     """This functions implements signout"""
+    session.clear()
     return redirect(url_for('index'))
+
+@app.route('/admin/resolved', methods=['GET', 'POST'])
+def resolve_issue():
+    """This function implements view issues"""
+    results = sessions.query(Issues).all()
+    return render_template("allissues.html", results=results)
 
 
 if __name__ == '__main__':
