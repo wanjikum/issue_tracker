@@ -1,28 +1,37 @@
-<form action={{url_for("raise_issue")}} method="post">
-<div class="container">
-    <label><b>Issue Name</b></label>
-    <input type="text" placeholder="Enter issue name" name="issuename" required>
-   <br><br>
-    <label><b>Issue Description</b></label>
-    <input type="text" placeholder="Enter issue description" name="description" required>
-  <br><br>
-    <label><b>Priority</b></label>
-    <select name="priority">
-        <option value="high">High</option>
-        <option value="medium">Medium</option>
-        <option value="low">Low</option>
-    </select>
-   <br><br>
-    <label><b>Department</b></label>
-    <select name="department">
-        <option value="operations">Operations</option>
-        <option value="finance">Finance</option>
-        <option value="training">Training</option>
-        <option value="recruitment">Recruitment</option>
-        <option value="success">Success</option>
-        <option value="sales">Sales</option>
-        <option value="marketing">Marketing</option>
-    </select>
-  <br><br>
-    <button type="submit">Submit</button>
-</div>
+<html>
+    <head>
+        <title>Index</title>
+    </head>
+    <body>
+        <a href="{{url_for('sign_out')}}">Sign out</a>
+        <br>
+        <form action={{url_for("raise_issue")}} method="post">
+        <div class="container">
+            <label><b>Issue Name</b></label>
+            <input type="text" placeholder="Enter issue name" name="issuename" required>
+           <br><br>
+            <label><b>Issue Description</b></label>
+            <input type="text" placeholder="Enter issue description" name="description" required>
+          <br><br>
+            <label><b>Priority</b></label>
+            <select name="priority">
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+           <br><br>
+            <label><b>Department</b></label>
+            <select name="department">
+                <option value="operations">Operations</option>
+                <option value="finance">Finance</option>
+                <option value="training">Training</option>
+                <option value="recruitment">Recruitment</option>
+                <option value="success">Success</option>
+                <option value="sales">Sales</option>
+                <option value="marketing">Marketing</option>
+            </select>
+          <br><br>
+            <button type="submit">Submit</button>
+         </div>
+    </body>
+</html>

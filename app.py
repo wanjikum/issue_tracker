@@ -58,6 +58,10 @@ def raise_issue():
         #return redirect(url_for('index'))
     return render_template("raiseissue.html")
 
+@app.route('/signin/signout')
+def sign_out():
+   return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=8080, debug=True)
