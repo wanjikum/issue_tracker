@@ -24,6 +24,7 @@ def sign_in():
     """This function implements user/admin sign_in"""
     if request.method == 'POST':
         user = sessions.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
+        flash('You were successfully logged in')
         return redirect(url_for('raise_issue'))
     return render_template("signin.html")
 
@@ -39,22 +40,34 @@ def sign_up():
         newuser = Users(username=username, password=password, email=email, department=department, designation=designation)
         sessions.add(newuser)
         sessions.commit()
+        flash('You were successfully signed up')
         return redirect(url_for('index'))
     return render_template("signup.html")
 
 @app.route('/signin/raiseissue', methods=['GET', 'POST'] )
 def raise_issue():
     """This function implements raise_issues"""
-    if request.method == 'POST':
-        issuename = request.form['issuename']
-        description = request.form['description']
-        priority = request.form['priority']
-        department = request.form['department']
-        newissue = Issues(name=issuename, description=description, priority=priority, department=department)
-        sessions.add(newissue)
-        sessions.commit()
-        #return redirect(url_for('index'))
-    return render_template("raiseissue.html")
+    if 'Username' in session:
+        username = session['Username'] 
+        if request.method == 'POST':
+            issuename = request.form['issuename']
+            description = request.form['description']
+            priority = request.form['priority']
+            department = request.form['department']
+            newissue = Issues(name=issuename, description=description, priority=priority, department=department)
+            sessions.add(newissue)
+            sessions.commit()
+            flash('You have successfully raised an issue!')
+
+            #return redirect(url_for('index'))
+        return render_template("raiseissue.html")
+    else:
+        return redirect(url_for('index'))
+
+@app.route('/viewissues')
+def view_issues():
+    """This function implements sign_in"""
+    return render_template("allissues.html")
 
 @app.route('/signin/signout')
 def sign_out():
