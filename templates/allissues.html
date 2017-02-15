@@ -1,0 +1,17 @@
+<html>
+	<body>
+		<br>
+		<a href={{ url_for('user_view_issues')}}>Log Out</a>
+		<br>
+		{% for i in results %}
+			<p>{{i.name}}</p>
+			<p>{{i.description}}</p>
+			<p>{{i.priority}}</p>
+			<p>{{i.department}}</p>
+			<p>{{i.user_id}}</p>
+			<br>
+			<br>
+		{% endfor %}
+	
+</body>
+</html>

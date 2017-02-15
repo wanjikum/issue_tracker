@@ -18,16 +18,6 @@ class Users(Base):
 	email = Column(String(250), nullable=False)
 	department = Column(String(250), nullable=False)
 	designation = Column(String(250))
-
-	def __init__(self, username, password, email, department, designation):
-		self.username =username
-		self.password = password
-		self.email = email
-		self.department = department
-		self.designation = designation
-
-
-
 	
 class Issues(Base):
 	

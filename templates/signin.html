@@ -1,3 +1,5 @@
+{%extends 'base.html'%}
+{% block body %}
 <form action={{url_for("sign_in")}} method="POST">
 <div class="container">
     <label><b>Username</b></label>
@@ -8,3 +10,4 @@
   <br><br>
     <button type="submit">Sign in</button>
  </div>
+{% endblock %}

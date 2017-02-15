@@ -26,6 +26,11 @@ def sign_in():
         user = sessions.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
         flash('You were successfully logged in')
         session['Username'] = request.form['username']
+        session['id'] = user.id
+        if user.designation == 'admin':
+            return redirect(url_for('admin_view_issues'))
+        else:
+            return redirect(url_for('user_view_issues'))
         return redirect(url_for('raise_issue'))
     return render_template("signin.html")
 
@@ -38,6 +43,11 @@ def sign_up():
         email = request.form['email']
         department = request.form['department']
         designation = request.form['usertype']
+        if designation == 'admin':
+            admin = sessions.query(Users).filter_by(designation = 'admin', department = department)
+            if admin != None:
+                flash('Sorry there is an admin!!')
+                return render_template("signup.html")
         newuser = Users(username=username, password=password, email=email, department=department, designation=designation)
         sessions.add(newuser)
         sessions.commit()
@@ -55,7 +65,7 @@ def raise_issue():
             description = request.form['description']
             priority = request.form['priority']
             department = request.form['department']
-            newissue = Issues(name=issuename, description=description, priority=priority, department=department)
+            newissue = Issues(name=issuename, description=description, priority=priority, department=department, user_id = session['id'] )
             sessions.add(newissue)
             sessions.commit()
             flash('You have successfully raised an issue!')
@@ -65,12 +75,19 @@ def raise_issue():
             return render_template("raiseissue.html", user=username)
     else:
         return redirect(url_for('index'))
-"""
-@app.route('/viewissues')
-def view_issues():
-    This function implements sign_in
-    return render_template("allissues.html")
-"""
+
+@app.route('/user/viewissues')
+def user_view_issues():
+    """This function implements view issues"""
+    results = sessions.query(Issues).filter_by(user_id = session['id']).all()
+    return render_template("allissues.html", results=results)
+
+@app.route('/admin/viewissues')
+def admin_view_issues():
+    """This function implements view issues"""
+    results = sessions.query(Issues).all()
+    return render_template("allissues.html", results=results)
+
 
 
 @app.route('/signout')
