@@ -1,11 +1,12 @@
 from flask import Flask, render_template, redirect, session, request, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Issues, Users
+
+app = Flask(__name__)
+app.secret_key = "jijikiki"
+
 
 engine = create_engine('sqlite:///issue_tracker.db')
 
@@ -18,17 +19,16 @@ def index():
     """This function implements sign_in"""
     return render_template("index.html")
 
-@app.route('/signin')
+@app.route('/signin', methods=['GET', 'POST'])
 def sign_in():
     """This function implements user/admin sign_in"""
-    
-
-
+    if request.method == 'POST':
+        user = session.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
+        return redirect(url_for('raise_issue'))
     return render_template("signin.html")
 
 @app.route('/signup', methods=['GET', 'POST'] )
 def sign_up():
-    
     """This function implements user/admin sign_up"""
     if request.method == 'POST':
         username = request.form['username']
@@ -41,8 +41,6 @@ def sign_up():
         session.add(newuser)
         session.commit()
         return redirect(url_for('index'))
-
-
     return render_template("signup.html")
 
 @app.route('/signin/raiseissue', methods=['GET', 'POST'] )
