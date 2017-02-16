@@ -24,8 +24,9 @@ def sign_in():
     """This function implements user/admin sign_in"""
     if request.method == 'POST':
         user = sessions.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
-        flash('You were successfully logged in')
+        flash(u'You were successfully logged in', "success" )
         session['Username'] = request.form['username']
+        session['department'] = user.department
         session['id'] = user.id
         session['logged'] = True
         if user.designation == 'admin':
@@ -45,14 +46,14 @@ def sign_up():
         department = request.form['department']
         designation = request.form['usertype']
         if designation == 'admin':
-            admin = sessions.query(Users).filter_by(designation = 'admin', department = department)
+            admin = sessions.query(Users).filter_by(designation = 'admin', department=department)
             if admin != None:
-                flash('Sorry there is an admin!!')
+                flash(u'Sorry there is an admin!!', "error")
                 return render_template("signup.html")
         newuser = Users(username=username, password=password, email=email, department=department, designation=designation)
         sessions.add(newuser)
         sessions.commit()
-        flash('You were successfully signed up')
+        flash(u'You were successfully signed up', "success")
         return redirect(url_for('sign_in'))
     return render_template("signup.html")
 
@@ -69,7 +70,7 @@ def raise_issue():
             newissue = Issues(name=issuename, description=description, priority=priority, department=department, user_id = session['id'] )
             sessions.add(newissue)
             sessions.commit()
-            flash('You have successfully raised an issue!')
+            flash(u'You have successfully raised an issue!', "success")
             #return redirect(url_for('index'))
             return redirect(url_for('user_view_issues'))
         else:
@@ -86,10 +87,9 @@ def user_view_issues():
 @app.route('/admin/viewissues')
 def admin_view_issues():
     """This function implements view issues"""
-    results = sessions.query(Issues).all()
-    return render_template("allissues.html", results=results)
-
-
+    issues = sessions.query(Issues).filter_by(department= session['department']).all()
+    users = sessions.query(Users).all()
+    return render_template("allissues.html", results=issues, users = users)
 
 @app.route('/signout')
 def sign_out():
@@ -108,16 +108,14 @@ def update_issue():
     """This function implements update issues"""
     if request.method == 'POST':
         issue_id = request.form['issue_id']
-        print(issue_id)
         issue_name = request.form['issue_name']
         status = request.form['status']
         assign_to = request.form['assign_to']
-
-        #comment = request.form['comment']
-        edit_issue = update(Issues).where(Issues.id==int(issue_id)).values(name=issue_name, assignned=assign_to, resolved=status)
+        comment = request.form['comment']
+        edit_issue = update(Issues).where(Issues.id==int(issue_id)).values(name=issue_name, assignned=assign_to, resolved=status, remarks=comment)
         sessions.execute(edit_issue)
         sessions.commit()
-        flash('You have successfully updated an issue!')
+        flash(u'You have successfully updated an issue!', "success")
 
 
     return redirect(url_for("admin_view_issues"))

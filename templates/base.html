@@ -44,7 +44,19 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                 </ul>
-
+                {% if session["Username"] %}
+                    <form action="{{url_for('sign_out')}}">
+                        <button  type="submit" class="btn btn-info navbar-btn navbar-right" >Sign Out</button>
+                    </form>
+                {% elif request.path == "/signin" %}
+                     <form action="{{url_for('sign_up')}}">
+                        <button  type="submit" class="btn btn-info navbar-btn navbar-right" >Sign Up</button>
+                    </form>
+                {% else %}
+                    <form action="{{url_for('sign_in')}}">
+                       <button  type="submit" class="btn btn-info navbar-btn navbar-right" >Sign In</button>
+                    </form>
+                {% endif %}
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -52,13 +64,18 @@
     </nav>
 
 <title>issue tracker</title>
-{% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
+    {% for category, message in messages %}
+        {% if category == "error" %}
+            <div class="alert alert-warning" role="alert">
+        {% else %}
+            <div class="alert alert-success" role="alert">
+        {% endif %}
+        {{ message }}
+        </div>
     {% endfor %}
-    </ul>
+    
   {% endif %}
 {% endwith %}
 {% block body %}{% endblock %}

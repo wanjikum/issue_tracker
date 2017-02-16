@@ -7,9 +7,6 @@
         </div>  
         <div class="col-md-4">
             <h1>Welcome {{ user }}</h1>
-            <form action="{{url_for('sign_out')}}">
-                <button  type="submit" class="btn btn-info" >Sign Out</button>
-            </form>
             <form action={{url_for("raise_issue")}} method="post" role="form">
                 <div class ="form-group">
                     <label class="control-label"><b>Issue Name</b></label>
