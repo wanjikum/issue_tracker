@@ -45,7 +45,7 @@ def sign_up():
         department = request.form['department']
         designation = request.form['usertype']
         if designation == 'admin':
-            admin = sessions.query(Users).filter_by(designation = 'admin', department = department)
+            admin = sessions.query(Users).filter_by(designation = 'admin', department=department)
             if admin != None:
                 flash('Sorry there is an admin!!')
                 return render_template("signup.html")
@@ -86,10 +86,10 @@ def user_view_issues():
 @app.route('/admin/viewissues')
 def admin_view_issues():
     """This function implements view issues"""
-    results = sessions.query(Issues).all()
-    return render_template("allissues.html", results=results)
-
-
+    issues = sessions.query(Issues).all()
+    users = sessions.query(Users).all()
+    print(users)
+    return render_template("allissues.html", results=issues, users = users)
 
 @app.route('/signout')
 def sign_out():
@@ -108,13 +108,12 @@ def update_issue():
     """This function implements update issues"""
     if request.method == 'POST':
         issue_id = request.form['issue_id']
-        print(issue_id)
         issue_name = request.form['issue_name']
         status = request.form['status']
         assign_to = request.form['assign_to']
-
-        #comment = request.form['comment']
-        edit_issue = update(Issues).where(Issues.id==int(issue_id)).values(name=issue_name, assignned=assign_to, resolved=status)
+        import pdb; pdb.set_trace()
+        comment = request.form['comment']
+        edit_issue = update(Issues).where(Issues.id==int(issue_id)).values(name=issue_name, assignned=assign_to, resolved=status, remarks=comment)
         sessions.execute(edit_issue)
         sessions.commit()
         flash('You have successfully updated an issue!')
