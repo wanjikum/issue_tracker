@@ -18,7 +18,7 @@ A simple issue tracker system implemented in python flask and sqlalchemy
  
  `$ pip install requirements.txt`
  
- Run the application with either of the two commands:
+ Run the application using the following commands:
  ```
  $ python app.py 
  ```
