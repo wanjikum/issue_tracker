@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, update
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Issues, Users
+import os
 
 app = Flask(__name__)
 app.secret_key = "jijikiki"
@@ -121,4 +122,5 @@ def update_issue():
     return redirect(url_for("admin_view_issues"))
 
 if __name__ == '__main__':
-   app.run(host = "0.0.0.0", port=443)
+   port = int(os.environ.get('PORT', 5000))
+   app.run(host='0.0.0.0', port=port, debug=True)
