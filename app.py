@@ -71,7 +71,7 @@ def raise_issue():
             sessions.commit()
             flash('You have successfully raised an issue!')
             #return redirect(url_for('index'))
-            return render_template("raiseissue.html", user=username)
+            return redirect(url_for('user_view_issues'))
         else:
             return render_template("raiseissue.html", user=username)
     else:

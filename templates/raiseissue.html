@@ -1,39 +1,51 @@
 {%extends 'base.html'%}
 {% block body %}
+<title>raise_issue</title>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+        </div>  
+        <div class="col-md-4">
+            <h1>Welcome {{ user }}</h1>
+            <form action="{{url_for('sign_out')}}">
+                <button  type="submit" class="btn btn-info" >Sign Out</button>
+            </form>
+            <form action={{url_for("raise_issue")}} method="post" role="form">
+                <div class ="form-group">
+                    <label class="control-label"><b>Issue Name</b></label>
+                    <input type="text" placeholder="Enter issue name" name="issuename" class="form-control" required>
+                </div>
+                <div class ="form-group">
+                    <label class="control-label"><b>Issue Description</b></label>
+                    <input type="text" placeholder="Enter issue description" name="description" class="form-control" required>
+                </div>
+                <div class ="form-group">
+                    <label class="control-label"><b>Priority</b></label>
+                    <select name="priority" class="form-control">
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                <div>
+                <div class ="form-group">
+                    <label class="control-label"><b>Department</b></label>
+                    <select name="department" class="form-control">
+                        <option value="operations">Operations</option>
+                        <option value="finance">Finance</option>
+                        <option value="training">Training</option>
+                        <option value="recruitment">Recruitment</option>
+                        <option value="success">Success</option>
+                        <option value="sales">Sales</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                </div>
+                <div class ="form-group">
+                    <button type="submit" class="btn btn-info">Submit</button>
+                <div>
+            </form>
+        </div>
+    </div>
+</div>
 
-        <title>raise_issue</title>
-    <body>
-    <h1>Welcome {{ user }}</h1>
-        <a href="{{url_for('sign_out')}}">Sign out</a>
-        <br>
-        <form action={{url_for("raise_issue")}} method="post">
-        <div class="container">
-            <label><b>Issue Name</b></label>
-            <input type="text" placeholder="Enter issue name" name="issuename" required>
-           <br><br>
-            <label><b>Issue Description</b></label>
-            <input type="text" placeholder="Enter issue description" name="description" required>
-          <br><br>
-            <label><b>Priority</b></label>
-            <select name="priority">
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-            </select>
-           <br><br>
-            <label><b>Department</b></label>
-            <select name="department">
-                <option value="operations">Operations</option>
-                <option value="finance">Finance</option>
-                <option value="training">Training</option>
-                <option value="recruitment">Recruitment</option>
-                <option value="success">Success</option>
-                <option value="sales">Sales</option>
-                <option value="marketing">Marketing</option>
-            </select>
-          <br><br>
-            <button type="submit">Submit</button>
-         </div>
-</body>
-</html>
+
 {% endblock %}
