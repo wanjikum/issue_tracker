@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, session, request, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, update
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Issues, Users
 
@@ -103,6 +103,24 @@ def resolve_issue():
     results = sessions.query(Issues).all()
     return render_template("allissues.html", results=results)
 
+@app.route('/admin/update', methods=['POST'])
+def update_issue():
+    """This function implements update issues"""
+    if request.method == 'POST':
+        issue_id = request.form['issue_id']
+        print(issue_id)
+        issue_name = request.form['issue_name']
+        status = request.form['status']
+        assign_to = request.form['assign_to']
+
+        #comment = request.form['comment']
+        edit_issue = update(Issues).where(Issues.id==int(issue_id)).values(name=issue_name, assignned=assign_to, resolved=status)
+        sessions.execute(edit_issue)
+        sessions.commit()
+        flash('You have successfully updated an issue!')
+
+
+    return redirect(url_for("admin_view_issues"))
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=8080, debug=True)
