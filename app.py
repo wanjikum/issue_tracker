@@ -26,6 +26,7 @@ def sign_in():
         user = sessions.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
         flash('You were successfully logged in')
         session['Username'] = request.form['username']
+        session['department'] = user.department
         session['id'] = user.id
         session['logged'] = True
         if user.designation == 'admin':
@@ -86,9 +87,8 @@ def user_view_issues():
 @app.route('/admin/viewissues')
 def admin_view_issues():
     """This function implements view issues"""
-    issues = sessions.query(Issues).all()
+    issues = sessions.query(Issues).filter_by(department= session['department']).all()
     users = sessions.query(Users).all()
-    print(users)
     return render_template("allissues.html", results=issues, users = users)
 
 @app.route('/signout')
@@ -111,7 +111,6 @@ def update_issue():
         issue_name = request.form['issue_name']
         status = request.form['status']
         assign_to = request.form['assign_to']
-        import pdb; pdb.set_trace()
         comment = request.form['comment']
         edit_issue = update(Issues).where(Issues.id==int(issue_id)).values(name=issue_name, assignned=assign_to, resolved=status, remarks=comment)
         sessions.execute(edit_issue)

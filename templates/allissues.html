@@ -11,11 +11,11 @@
 	  <thead>
 		  <tr>                  
 		    <th>Name</th>
-		    <th>Description</th>
 		    <th>Priority</th>
 		    <th>Department</th>
 		    <th>User_id</th>
-		    <th>Resolve<th>
+		    <th>Status</th>
+		    <th>Assigned To</th>
 		  </tr>
 	  </thead>
 	  <tbody>
@@ -23,13 +23,16 @@
 		{% for i in results %}
 		<tr data-toggle="modal" data-target="#{{i.id}}">
 			<td>{{i.name}}</td>
-			<td>{{i.description}}</td>
 			<td>{{i.priority}}</td>
 			<td>{{i.department}}</td>
 			<td>{{i.user_id}}</td>
+			<td>{{i.resolved}}</td>
+			<td>{{i.assignned}}</td>
+
 			<td>
 		</tr>
 		<!-- Modal -->
+		{% if users%}
 		<div class="modal fade" id={{i.id}} tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		 <div class="modal-dialog" role="document">
 		   <div class="modal-content">
@@ -74,6 +77,7 @@
 		   </div>
 		 </div>
 		</div>
+		{% endif%}
 		{% endfor %}
 	  </tbody>
 	</table>
