@@ -17,7 +17,7 @@ sessions = DBSession()
 @app.route('/')
 def index():
     """This function implements sign_in"""
-    return render_template("index.html")
+    return render_template("signup.html")
 
 @app.route('/signin', methods=['GET', 'POST'])
 def sign_in():
@@ -53,7 +53,7 @@ def sign_up():
         sessions.add(newuser)
         sessions.commit()
         flash('You were successfully signed up')
-        return redirect(url_for('index'))
+        return redirect(url_for('sign_in'))
     return render_template("signup.html")
 
 @app.route('/signin/raiseissue', methods=['GET', 'POST'] )
