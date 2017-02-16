@@ -7,8 +7,8 @@
         <button  type="submit" class="btn btn-info" >Raise Issue</button>
     </form>
 
-	<table class="table table-responsive">
-	  <thead>
+	<table class="table table-responsive table-hover table-bordered">
+	  <thead class = "thead-default">
 		  <tr>                  
 		    <th>Name</th>
 		    <th>Priority</th>
@@ -21,15 +21,19 @@
 	  <tbody>
 
 		{% for i in results %}
-		<tr data-toggle="modal" data-target="#{{i.id}}">
-			<td>{{i.name}}</td>
-			<td>{{i.priority}}</td>
-			<td>{{i.department}}</td>
-			<td>{{i.user_id}}</td>
-			<td>{{i.resolved}}</td>
-			<td>{{i.assignned}}</td>
-
-			<td>
+		{% if i.resolved == "resolved" %}
+			<tr class = "success" data-toggle="modal" data-target="#{{i.id}}">
+		{% elif i.resolved == "pending" %}
+			<tr data-toggle="modal" data-target="#{{i.id}}">
+		{% else %}
+			<tr class = "warning" data-toggle="modal" data-target="#{{i.id}}">
+		{% endif %}
+				<td>{{i.name}}</td>
+				<td>{{i.priority}}</td>
+				<td>{{i.department}}</td>
+				<td>{{i.user_id}}</td>
+				<td>{{i.resolved}}</td>
+				<td>{{i.assignned}}</td>
 		</tr>
 		<!-- Modal -->
 		{% if users%}
@@ -65,7 +69,7 @@
 					</div>
 					<div class ="form-group">
 					    <label class="control-label"><b>Comment</b></label>
-					    <input name="comment" type="text" class="form-control">
+					    <input name="comment" type="text" class="form-control" value = {{i.remarks}} >
 					   
 			        </div>         
 		           <div class="modal-footer">
@@ -81,10 +85,8 @@
 		{% endfor %}
 	  </tbody>
 	</table>
+	</div>
 </div>
-<form action="{{url_for('sign_out')}}">
-    <button  type="submit" class="btn btn-info" >Sign Out</button>
-</form>
 {% endblock %}
 
 

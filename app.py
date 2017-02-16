@@ -24,7 +24,7 @@ def sign_in():
     """This function implements user/admin sign_in"""
     if request.method == 'POST':
         user = sessions.query(Users).filter_by(username =request.form['username'], password=request.form['password']).one()
-        flash('You were successfully logged in')
+        flash(u'You were successfully logged in', "success" )
         session['Username'] = request.form['username']
         session['department'] = user.department
         session['id'] = user.id
@@ -48,12 +48,12 @@ def sign_up():
         if designation == 'admin':
             admin = sessions.query(Users).filter_by(designation = 'admin', department=department)
             if admin != None:
-                flash('Sorry there is an admin!!')
+                flash(u'Sorry there is an admin!!', "error")
                 return render_template("signup.html")
         newuser = Users(username=username, password=password, email=email, department=department, designation=designation)
         sessions.add(newuser)
         sessions.commit()
-        flash('You were successfully signed up')
+        flash(u'You were successfully signed up', "success")
         return redirect(url_for('sign_in'))
     return render_template("signup.html")
 
@@ -70,7 +70,7 @@ def raise_issue():
             newissue = Issues(name=issuename, description=description, priority=priority, department=department, user_id = session['id'] )
             sessions.add(newissue)
             sessions.commit()
-            flash('You have successfully raised an issue!')
+            flash(u'You have successfully raised an issue!', "success")
             #return redirect(url_for('index'))
             return redirect(url_for('user_view_issues'))
         else:
@@ -115,7 +115,7 @@ def update_issue():
         edit_issue = update(Issues).where(Issues.id==int(issue_id)).values(name=issue_name, assignned=assign_to, resolved=status, remarks=comment)
         sessions.execute(edit_issue)
         sessions.commit()
-        flash('You have successfully updated an issue!')
+        flash(u'You have successfully updated an issue!', "success")
 
 
     return redirect(url_for("admin_view_issues"))
