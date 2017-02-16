@@ -1,0 +1,86 @@
+{%extends 'base.html'%}
+{% block body %}
+<div class="row">
+
+<div class='col-lg-8 col-lg-offset-1'>
+    <form action="{{url_for('raise_issue')}}">
+        <button  type="submit" class="btn btn-info" >Raise Issue</button>
+    </form>
+
+	<table class="table table-responsive">
+	  <thead>
+		  <tr>                  
+		    <th>Name</th>
+		    <th>Description</th>
+		    <th>Priority</th>
+		    <th>Department</th>
+		    <th>User_id</th>
+		    <th>Resolve<th>
+		  </tr>
+	  </thead>
+	  <tbody>
+
+		{% for i in results %}
+		<tr data-toggle="modal" data-target="#{{i.id}}">
+			<td>{{i.name}}</td>
+			<td>{{i.description}}</td>
+			<td>{{i.priority}}</td>
+			<td>{{i.department}}</td>
+			<td>{{i.user_id}}</td>
+			<td>
+		</tr>
+		<!-- Modal -->
+		<div class="modal fade" id={{i.id}} tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 <div class="modal-dialog" role="document">
+		   <div class="modal-content">
+		     <div class="modal-header">
+		       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		       <h4 class="modal-title" id="myModalLabel">{{i.name}}</h4>
+		     </div>
+		     <div class="modal-body">
+		     	<h4 class="modal-title" id="myModalLabel">{{i.description}}</h4>
+		     	<form action={{url_for("update_issue")}} method="post"><!-- resove_issue call function{{url_for}} -->
+		     	<label><b>Issue Information</b></label>
+		     	    <input type="text" name="issue_id" value={{i.id}}>
+		     	    <input type="text" name="issue_name" value={{i.name}}>
+				    <select name="status">
+				        <option value="pending">Pending</option>
+				        <option value="in-progress">In progress</option>
+				        <option value="resolved">Resolved</option>
+				    </select>
+				<label><b>Assign To:</b></label>
+				    <select name="assign_to">
+				        <option value="sean">Sean</option>
+				        <option value="larry">Larry</option>
+				        <option value="ken">Ken</option>
+				    </select>
+			    <textarea rows="4" cols="50" name="comment" form="usrform">
+			    Enter comment here...</textarea>
+				
+		     </div>
+
+		     <div class="modal-footer">
+		       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		       <input type="submit" name="submit" class="btn btn-primary">
+		     </div>
+		     </form>
+		   </div>
+		 </div>
+		</div>
+		{% endfor %}
+	  </tbody>
+	</table>
+</div>
+<form action="{{url_for('sign_out')}}">
+    <button  type="submit" class="btn btn-info" >Sign Out</button>
+</form>
+<div class='col-lg-4 col-lg-offset-1'>
+	
+    
+   <br><br>
+	<br>
+	<br>
+
+{% endblock %}
+
+

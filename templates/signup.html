@@ -1,30 +1,56 @@
-<form>
+{%extends 'base.html'%}
+{% block body %}
 <div class="container">
-    <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username" required>
-   <br><br>
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
-  <br><br>
-    <label><b>Email</b></label>
-    <input type="text" placeholder="Enter email" name="email" required>
-   <br><br>
-    <label><b>Department</b></label>
-    <select>
-        <option value="operations">Operations</option>
-        <option value="finance">Finance</option>
-        <option value="training">Training</option>
-        <option value="recruitment">Recruitment</option>
-        <option value="success">Success</option>
-        <option value="sales">Sales</option>
-        <option value="marketing">Marketing</option>
-    </select>
-  <br><br>
-  <label><b>Designation</b></label>
-  <select>
-        <option value="admin">Admin</option>
-        <option value="user">User</option>
-   </select>
-  <br><br>
-    <button type="submit">Sign Up</button>
+        <div class="row">
+            <div class="col-md-4">
+            </div>    
+            <div class="col-md-4">
+                <form action="{{url_for('sign_in')}}">
+                   <button  type="submit" class="btn btn-info" >Sign In</button>
+                </form>
+                  <form action={{url_for("sign_up")}} method="post" role="form">
+                      <div class ="form-group">
+                          <label class="control-label"><b>Username</b></label>
+                          <input type="text" placeholder="Enter Username" name="username" class="form-control" required>
+                      </div>
+                      <div class ="form-group">
+                          <label class="control-label"><b>Password</b></label>
+                          <input type="password" placeholder="Enter Password" name="password" class="form-control" required>
+                      </div>
+                      <div class ="form-group">
+                          <label class="control-label"><b>Email</b></label>
+                          <input type="text" placeholder="Enter email" name="email" class="form-control" required>
+                      </div>
+                      <div class ="form-group">
+                          <label class="control-label"><b>Department</b></label>
+                          <select name="department" class="form-control">
+                              <option value="operations">Operations</option>
+                              <option value="finance">Finance</option>
+                              <option value="training">Training</option>
+                              <option value="recruitment">Recruitment</option>
+                              <option value="success">Success</option>
+                              <option value="sales">Sales</option>
+                              <option value="marketing">Marketing</option>
+                          </select>
+                      </div>
+                      <div class ="form-group">
+                        <label class="control-label"><b>Designation</b></label>
+                        <select name="usertype" class="form-control">
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                       </select>
+                      </div>
+                      <div class ="form-group">
+                        <button  type="submit" class="btn btn-info" >Sign Up</button>
+                      </div>
+                  </form>
+            </div>
+
+            <div class="col-md-4">
+            </div>
+
+
+      </div>          
  </div>
+ {% endblock %}
+
